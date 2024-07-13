@@ -5,13 +5,6 @@ variable "public_subnets" {
     cidr_block = string
     azs = string 
   }))
-
-  default = {
-    "default-subnet" = {
-      cidr_block = ""
-      azs = ""
-    }
-  }
 }
 
 variable "private_subnets" {
