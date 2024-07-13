@@ -1,21 +1,26 @@
 resource "aws_vpc" "custom-vpc" {
-  cidr_block = var.cidr_block
+  cidr_block = var.vpc_cidr_block
 
   tags = {
     Name = "${var.tag_name}-vpc"
   }
 }
 
+# Local variable to execute map(object) validation
+# locals {
+#   valid_public_subnets = { for k,v in var.public_subnets : k=>v if v.sub}
+# }
+
 # Public Subnets
 resource "aws_subnet" "public-subnets" {
-  for_each = var.public_subnets != null ? toset(var.public_subnets) : toset([])
+  for_each = { for k,v in var.public_subnets : k => v if v.cidr_block != "" && v.azs != "" }
   vpc_id = aws_vpc.custom-vpc.id
-  cidr_block = each.value
-  availability_zone = var.azs
+  cidr_block = each.value.cidr_block
+  availability_zone = each.value.azs
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.tag_name}-${each.value}-public-subnet"
+    Name = "${var.tag_name}-${each.value.azs}-public-subnet"
   }
 }
 
