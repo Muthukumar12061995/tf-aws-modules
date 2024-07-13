@@ -6,4 +6,7 @@ variable "private_subnets" {
   type = list(string)
   default = []
 }
-variable "nat_gateways" {type=bool}
+variable "nat_gateways" {
+  type=bool
+  default = false
+}
