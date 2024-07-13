@@ -11,7 +11,7 @@ resource "aws_subnet" "public-subnets" {
   for_each = var.networking.public_subnets != null && var.networking.public_subnets != {} ? toset(var.networking.public_subnets) : {}
   vpc_id = aws_vpc.custom-vpc.id
   cidr_block = each.value
-  count = var.azs
+  count = length(var.azs)
   availability_zone = var.networking.azs[count.index]
   map_public_ip_on_launch = true
 
