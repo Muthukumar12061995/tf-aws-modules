@@ -1,22 +1,21 @@
 resource "aws_vpc" "custom-vpc" {
-  cidr_block = var.networking.cidr_block
+  cidr_block = var.cidr_block
 
   tags = {
-    Name = "${var.networking.tag_name}-vpc"
+    Name = "${var.tag_name}-vpc"
   }
 }
 
 # Public Subnets
 resource "aws_subnet" "public-subnets" {
-  for_each = var.networking.public_subnets != null && var.networking.public_subnets != {} ? toset(var.networking.public_subnets) : {}
+  for_each = var.public_subnets != null ? toset(var.public_subnets) : toset([])
   vpc_id = aws_vpc.custom-vpc.id
   cidr_block = each.value
-  count = length(var.azs)
-  availability_zone = var.networking.azs[count.index]
+  availability_zone = var.azs
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.networking.tag_name}-${var.networking.public_subnets}-public-subnet"
+    Name = "${var.tag_name}-${each.value}-public-subnet"
   }
 }
 
@@ -25,7 +24,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.custom-vpc.id
 
   tags = {
-    Name = "${var.networking.tag_name}-igw"
+    Name = "${var.tag_name}-igw"
   }
 }
 
@@ -34,7 +33,7 @@ resource "aws_route_table" "public-table" {
   vpc_id = aws_vpc.custom-vpc.id
 
   tags = {
-    Name = "${var.networking.tag_name}-public-table"
+    Name = "${var.tag_name}-public-table"
   }
 }
 
@@ -55,14 +54,14 @@ resource "aws_route_table_association" "public-associate" {
 
 
 # Private Subnets
-resource "aws_subnet" "private-subnets" {
-  for_each = var.networking.private_subnets != null && var.networking.private_subnets != [] ? toset(var.networking.private_subnets) : {}
-  vpc_id = aws_vpc.custom-vpc.id
-  cidr_block = cidrsubnet(aws_vpc.custom-vpc.cidr_block,8,length(var.networking.private_subnets)+20)
-  availability_zone = each.value
-  map_public_ip_on_launch = false
+# resource "aws_subnet" "private-subnets" {
+#   for_each = var.private_subnets != null && var.private_subnets != [] ? toset(var.private_subnets) : {}
+#   vpc_id = aws_vpc.custom-vpc.id
+#   cidr_block = cidrsubnet(aws_vpc.custom-vpc.cidr_block,8,length(var.private_subnets)+20)
+#   availability_zone = each.value
+#   map_public_ip_on_launch = false
 
-  tags = {
-    Name = "${var.networking.tag_name}-${var.networking.public_subnets}-private-subnet"
-  }
-}
+#   tags = {
+#     Name = "${var.tag_name}-${each.value}}-private-subnet"
+#   }
+# }
