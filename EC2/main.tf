@@ -4,14 +4,14 @@ resource "aws_key_pair" "ssh-key" {
 }
 
 locals {
-  valid-ec2-info = {
+  valid_ec2_info = {
     for k,v in var.ec2-info : k=>v
     if v.ami != "" && v.instance_type != "" && v.subnet_id != ""
   }
 }
 
 resource "aws_instance" "ec2" {
-   for_each = local.valid-ec2-info
+   for_each = local.valid_ec2_info
    ami = each.value.ami
    instance_type = each.value.instance_type
    subnet_id = each.value.subnet_id

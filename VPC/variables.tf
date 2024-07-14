@@ -1,6 +1,6 @@
-variable "tag_name" {type = string}
-variable "vpc_cidr_block" {type = string}
-variable "public_subnets" {
+variable "tag-name" {type = string}
+variable "vpc-cidr-block" {type = string}
+variable "public-subnets" {
   type = map(object({
     cidr_block = string
     azs = string 
