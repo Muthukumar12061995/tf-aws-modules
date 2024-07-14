@@ -3,9 +3,15 @@ resource "aws_key_pair" "ssh-key" {
   public_key = file(var.ssh-key-path)
 }
 
-resource "aws_instance" "ec2" {
-   for_each = { for k,v in var.ec2-info : k => v if v.ami != "" && v.instance_type !="" && v.subnet_id !="" }
+locals {
+  valid-ec2-info = {
+    for k,v in var.ec2-info : k=>v
+    if v.ami !="" && v.instance_type != "" && v.subnet_id != ""
+  }
+}
 
+resource "aws_instance" "ec2" {
+   for_each = local.valid-ec2-info
    ami = each.value.ami
    instance_type = each.value.instance_type
    subnet_id = each.value.subnet_id
