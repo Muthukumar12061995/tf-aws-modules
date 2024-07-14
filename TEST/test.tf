@@ -21,6 +21,4 @@ module "custom-ec2-mk-lab" {
     }
   }
   subnet = module.custom-vpc-mk-lab.public_subnets.subnet1.id
-
-
 }

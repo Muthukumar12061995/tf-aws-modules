@@ -14,7 +14,7 @@ resource "aws_instance" "ec2" {
    for_each = local.valid_ec2_info
    ami = each.value.ami
    instance_type = each.value.instance_type
-   subnet_id = var.subnet
+   subnet_id = var.subnet-id
    key_name = each.value.ssh_acces ? aws_key_pair.ssh-key.key_name : ""
    //security_groups = each.value.security_groups
 }
