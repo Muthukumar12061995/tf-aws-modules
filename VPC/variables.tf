@@ -6,6 +6,14 @@ variable "public_subnets" {
     azs = string 
     map_public_ip_on_launch = bool
   }))
+
+  default = {
+    "default-subnet" = {
+      cidr_block = "10.0.1.0/16"
+      azs = "us-east-1a"
+      map_public_ip_on_launch = true
+    }
+  }
 }
 
 variable "private_subnets" {
