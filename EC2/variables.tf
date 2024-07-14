@@ -24,4 +24,6 @@ variable "ec2-info" {
 
 variable "subnet" {
   type = string
+
+  default = ""
 }
