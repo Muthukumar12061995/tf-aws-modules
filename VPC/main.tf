@@ -8,7 +8,7 @@ resource "aws_vpc" "custom-vpc" {
 
 locals {
   valid-public-subnet-info- = {
-    for k,v in var.var.public_subnets : k=>v
+    for k,v in var.public_subnets : k=>v
     if v.cidr_block != "" && v.azs != "" 
   }
 }
