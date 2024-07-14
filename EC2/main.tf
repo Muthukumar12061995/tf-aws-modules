@@ -4,7 +4,7 @@ resource "aws_key_pair" "ssh-key" {
 }
 
 resource "aws_instance" "ec2" {
-   for_each = { for k,v in var.var.ec2-info : k => v if v.ami != "" && v.instance_type !="" && v.subnet_id !="" }
+   for_each = { for k,v in var.ec2-info : k => v if v.ami != "" && v.instance_type !="" && v.subnet_id !="" }
 
    ami = each.value.ami
    instance_type = each.value.instance_type
