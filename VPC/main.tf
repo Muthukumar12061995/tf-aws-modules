@@ -7,7 +7,7 @@ resource "aws_vpc" "custom_vpc" {
 }
 
 locals {
-  valid_public_subnet_info- = {
+  valid_public_subnet_info = {
     for k,v in var.public-subnets : k=>v
     if v.cidr_block != "" && v.azs != "" 
   }
@@ -15,7 +15,7 @@ locals {
 
 # Public Subnets
 resource "aws_subnet" "public_subnets" {
-  for_each = { for k,v in var.public-subnets : k => v if v.cidr_block != "" && v.azs != "" }
+  for_each = local.valid_public_subnet_info
   vpc_id = aws_vpc.custom_vpc.id
   cidr_block = each.value.cidr_block
   availability_zone = each.value.azs
