@@ -6,7 +6,7 @@ resource "aws_key_pair" "ssh-key" {
 locals {
   valid_ec2_info = {
     for k,v in var.ec2-info : k=>v
-    if v.ami != "" && v.instance_type != "" && v.subnet_id != ""
+    if v.ami != "" && v.instance_type != ""
   }
 }
 
@@ -14,7 +14,7 @@ resource "aws_instance" "ec2" {
    for_each = local.valid_ec2_info
    ami = each.value.ami
    instance_type = each.value.instance_type
-   subnet_id = each.value.subnet_id
+   subnet_id = var.subnet
    key_name = each.value.ssh_acces ? aws_key_pair.ssh-key.key_name : ""
-   security_groups = each.value.security_groups
+   //security_groups = each.value.security_groups
 }

@@ -9,7 +9,7 @@ variable "ec2-info" {
     instance_type = string
     ssh_acces = bool
     //security-groups = list(string)
-    subnet_id = string
+    //subnet_id = string
   }))
 
   default = {
@@ -17,7 +17,11 @@ variable "ec2-info" {
       ami = ""
       instance_type = ""
       ssh_acces = false
-      subnet_id = ""
+      //subnet_id = ""
     }
   }
+}
+
+variable "subnet" {
+  type = string
 }
