@@ -7,7 +7,7 @@ variable "ec2-info" {
   type = map(object({
     ami = string
     instance_type = string
-    ssh-acces = bool
+    ssh_acces = bool
     //security-groups = list(string)
     subnet_id = string
   }))
