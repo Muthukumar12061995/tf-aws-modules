@@ -11,4 +11,13 @@ variable "ec2-info" {
     //security-groups = list(string)
     subnet_id = string
   }))
+
+  default = {
+    "default-ec2" = {
+      ami = ""
+      instance_type = ""
+      ssh_acces = false
+      subnet_id = ""
+    }
+  }
 }

@@ -9,9 +9,9 @@ variable "public_subnets" {
 
   default = {
     "default-subnet" = {
-      cidr_block = "10.0.1.0/16"
-      azs = "us-east-1a"
-      map_public_ip_on_launch = true
+      cidr_block = ""
+      azs = ""
+      map_public_ip_on_launch = false
     }
   }
 }
