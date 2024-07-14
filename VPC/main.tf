@@ -6,6 +6,13 @@ resource "aws_vpc" "custom-vpc" {
   }
 }
 
+locals {
+  valid-public-subnet-info- = {
+    for k,v in var.var.public_subnets : k=>v
+    if v.cidr_block != "" && v.azs != "" 
+  }
+}
+
 # Public Subnets
 resource "aws_subnet" "public-subnets" {
   for_each = { for k,v in var.public_subnets : k => v if v.cidr_block != "" && v.azs != "" }

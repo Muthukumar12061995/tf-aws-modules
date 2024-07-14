@@ -6,7 +6,7 @@ resource "aws_key_pair" "ssh-key" {
 locals {
   valid-ec2-info = {
     for k,v in var.ec2-info : k=>v
-    if v.ami !="" && v.instance_type != "" && v.subnet_id != ""
+    if v.ami != "" && v.instance_type != "" && v.subnet_id != ""
   }
 }
 
