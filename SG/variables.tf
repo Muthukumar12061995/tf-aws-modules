@@ -1,0 +1,23 @@
+variable "tag_name" {
+  type = string
+}
+
+variable "vpc-id" {
+  type = string
+}
+
+variable "sg-rules" {
+  type = map(object({
+    port = string
+    protocol = string
+    cidr_block = string
+  }))
+
+  default = {
+    "default-sg-rule" = {
+      port = ""
+      protocol = ""
+      cidr_block = ""
+    }
+  }
+}
