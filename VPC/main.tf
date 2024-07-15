@@ -1,54 +1,61 @@
-resource "aws_vpc" "custom-vpc" {
-  cidr_block = var.cidr_block
+resource "aws_vpc" "custom_vpc" {
+  cidr_block = var.vpc-cidr-block
 
   tags = {
-    Name = "${var.tag_name}-vpc"
+    Name = "${var.tag-name}-vpc"
+  }
+}
+
+locals {
+  valid_public_subnet_info = {
+    for k,v in var.public-subnets : k=>v
+    if v.cidr_block != "" && v.azs != "" 
   }
 }
 
 # Public Subnets
-resource "aws_subnet" "public-subnets" {
-  for_each = var.public_subnets != null ? toset(var.public_subnets) : toset([])
-  vpc_id = aws_vpc.custom-vpc.id
-  cidr_block = each.value
-  availability_zone = var.azs
-  map_public_ip_on_launch = true
+resource "aws_subnet" "public_subnets" {
+  for_each = local.valid_public_subnet_info
+  vpc_id = aws_vpc.custom_vpc.id
+  cidr_block = each.value.cidr_block
+  availability_zone = each.value.azs
+  map_public_ip_on_launch = each.value.map_public_ip_on_launch
 
   tags = {
-    Name = "${var.tag_name}-${each.value}-public-subnet"
+    Name = "${var.tag-name}-${each.value.azs}-public-subnet"
   }
 }
 
 # Internet Gateway
 resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.custom-vpc.id
+  vpc_id = aws_vpc.custom_vpc.id
 
   tags = {
-    Name = "${var.tag_name}-igw"
+    Name = "${var.tag-name}-igw"
   }
 }
 
 # Public Route table 
-resource "aws_route_table" "public-table" {
-  vpc_id = aws_vpc.custom-vpc.id
+resource "aws_route_table" "public_table" {
+  vpc_id = aws_vpc.custom_vpc.id
 
   tags = {
-    Name = "${var.tag_name}-public-table"
+    Name = "${var.tag-name}-public-table"
   }
 }
 
 # Public Route 
-resource "aws_route" "public-route" {
-  route_table_id = aws_route_table.public-table.id
+resource "aws_route" "public_route" {
+  route_table_id = aws_route_table.public_table.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id = aws_internet_gateway.igw.id
 }
 
 # Public route associate with table
-resource "aws_route_table_association" "public-associate" {
-  for_each = aws_subnet.public-subnets
+resource "aws_route_table_association" "public_associate" {
+  for_each = aws_subnet.public_subnets
   subnet_id = each.value.id
-  route_table_id = aws_route_table.public-table.id
+  route_table_id = aws_route_table.public_table.id
 }
 
 
