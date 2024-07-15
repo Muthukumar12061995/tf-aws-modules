@@ -10,14 +10,14 @@ variable "sg-rules" {
   type = map(object({
     port = string
     protocol = string
-    cidr_block = string
+    cidr_blocks = list(string)
   }))
 
   default = {
     "default-sg-rule" = {
       port = ""
       protocol = ""
-      cidr_block = ""
+      cidr_blocks = [""]
     }
   }
 }
