@@ -17,13 +17,13 @@ variable "public-subnets" {
 }
 
 variable "private_subnets" {
-  type = map(object({
+type = map(object({
     cidr_block = string
-    azs = string
+    azs = string 
   }))
 
   default = {
-    default-subnet = {
+    "default-subnet" = {
       cidr_block = ""
       azs = ""
     }
