@@ -1,15 +1,19 @@
+locals {
+  valid_public_subnet_info = {
+    for k,v in var.public-subnets : k=>v
+    if v.cidr_block != "" && v.azs != "" 
+  }
+  valid_private_subnet_info = {
+    for k,v in var.var.private_subnets : k=>v
+    if v.cidr_block != "" && v.azs !=""
+  }
+}
+
 resource "aws_vpc" "custom_vpc" {
   cidr_block = var.vpc-cidr-block
 
   tags = {
     Name = "${var.tag-name}-vpc"
-  }
-}
-
-locals {
-  valid_public_subnet_info = {
-    for k,v in var.public-subnets : k=>v
-    if v.cidr_block != "" && v.azs != "" 
   }
 }
 
@@ -59,14 +63,6 @@ resource "aws_route_table_association" "public_associate" {
   subnet_id = each.value.id
   route_table_id = aws_route_table.public_table.id
 }
-
-locals {
-  valid_private_subnet_info = {
-    for k,v in var.var.private_subnets : k=>v
-    if v.cidr_block != "" && v.azs !=""
-  }
-}
-
 
 # Private Subnets
 resource "aws_subnet" "private-subnets" {
