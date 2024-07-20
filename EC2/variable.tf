@@ -8,7 +8,8 @@ variable "ec2-info" {
     ami = string
     instance_type = string
     ssh_acces = bool
-    //security-groups = list(string)
+    security_groups = list(string)
+    userdata = string
   }))
 
   default = {
@@ -16,6 +17,8 @@ variable "ec2-info" {
       ami = ""
       instance_type = ""
       ssh_acces = false
+      security_groups = ""
+      userdata = ""
     }
   }
 }
