@@ -10,6 +10,7 @@ variable "ec2-info" {
     ssh_acces = bool
     security_groups = list(string)
     userdata = string
+    volume_size = number
   }))
 
   default = {
@@ -19,6 +20,7 @@ variable "ec2-info" {
       ssh_acces = false
       security_groups = [""]
       userdata = ""
+      volume_size = 0
     }
   }
 }

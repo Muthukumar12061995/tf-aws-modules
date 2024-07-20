@@ -18,4 +18,8 @@ resource "aws_instance" "ec2" {
    key_name = each.value.ssh_acces ? aws_key_pair.ssh-key.key_name : ""
    security_groups = each.value.security_groups
    user_data = each.value.user_data
+
+   root_block_device {
+     volume_size = each.value.volume_size
+   }
 }
