@@ -19,7 +19,7 @@ variable "ec2-info" {
       instance_type = ""
       ssh_acces = false
       security_groups = [""]
-      userdata = ""
+      user_data = ""
       volume_size = 0
     }
   }
