@@ -17,7 +17,7 @@ variable "ec2-info" {
       ami = ""
       instance_type = ""
       ssh_acces = false
-      security_groups = ""
+      security_groups = [""]
       userdata = ""
     }
   }
