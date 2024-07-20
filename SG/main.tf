@@ -28,6 +28,6 @@ resource "aws_security_group" "sg" {
   }
 
   tags = {
-    Name = "${var.tag_name}-sg"
+    Name = "${var.tag-name}-sg"
   }
 }
