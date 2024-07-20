@@ -9,7 +9,7 @@ variable "ec2-info" {
     instance_type = string
     ssh_acces = bool
     security_groups = list(string)
-    userdata = string
+    user_data = string
     volume_size = number
   }))
 
