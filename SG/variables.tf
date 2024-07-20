@@ -1,4 +1,4 @@
-variable "tag_name" {
+variable "tag-name" {
   type = string
 }
 
