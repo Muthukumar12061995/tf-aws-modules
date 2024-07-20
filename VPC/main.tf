@@ -4,7 +4,7 @@ locals {
     if v.cidr_block != "" && v.azs != "" 
   }
   valid_private_subnet_info = {
-    for k,v in var.var.private_subnets : k=>v
+    for k,v in var.private_subnets : k=>v
     if v.cidr_block != "" && v.azs !=""
   }
 }
