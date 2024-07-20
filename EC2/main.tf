@@ -22,4 +22,8 @@ resource "aws_instance" "ec2" {
    root_block_device {
      volume_size = each.value.volume_size
    }
+
+   tags = {
+    Name = "${var.tag-name}-ec2"
+   }
 }

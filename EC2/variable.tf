@@ -3,6 +3,10 @@ variable "ssh-key-path" {
   sensitive = true
 }
 
+variable "tag-name" {
+  type = string
+}
+
 variable "ec2-info" {
   type = map(object({
     ami = string
@@ -11,7 +15,7 @@ variable "ec2-info" {
     security_groups = list(string)
     user_data = string
     volume_size = number
-  }))
+  })) 
 
   default = {
     "default-ec2" = {
